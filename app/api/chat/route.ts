@@ -2,7 +2,6 @@ import { kv } from '@vercel/kv'
 import { OpenAIStream, StreamingTextResponse } from 'ai'
 import { Configuration, OpenAIApi } from 'openai-edge'
 
-import { auth } from '@/auth'
 import { nanoid } from '@/lib/utils'
 
 export const runtime = 'edge'
@@ -16,14 +15,9 @@ const openai = new OpenAIApi(configuration)
 export async function POST(req: Request) {
   const json = await req.json()
   const { messages, previewToken } = json
-  const userId = (await auth())?.user.id
 
-  if (!userId) {
-    return new Response('Unauthorized', {
-      status: 401
-    })
-  }
-
+  const userId = '1';
+  
   if (previewToken) {
     configuration.apiKey = previewToken
   }
